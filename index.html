@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Estudo — Aprendizado Federado na Saúde</title>
+<style>
+body { margin: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  --bg: #10131a;
+  --panel: #1a1f29;
+  --panel-2: #1f2530;
+  --border: #2a3140;
+  --text: #e6e9ef;
+  --muted: #8b95a6;
+  --c-instituicoes: #e8a33d;
+  --c-brasil: #4fb286;
+  --c-padroes: #6e9fe8;
+  --c-frameworks: #c77dff;
+  --c-pesquisa: #e85d75;
+  --c-outras: #8b95a6;
+}
+
+* { box-sizing: border-box; }
+
+.flsg-root {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'IBM Plex Sans', sans-serif;
+  padding: 0;
+  min-height: 100%;
+  line-height: 1.5;
+}
+
+.flsg-root * { font-family: inherit; }
+
+.flsg-mono { font-family: 'IBM Plex Mono', monospace; }
+
+/* ---------- HERO ---------- */
+.flsg-hero {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 36px 28px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.flsg-ring-wrap { position: relative; width: 132px; height: 132px; flex-shrink: 0; }
+.flsg-ring-wrap svg { transform: rotate(-90deg); }
+.flsg-ring-bg { fill: none; stroke: var(--panel-2); stroke-width: 8; }
+.flsg-ring-fg { fill: none; stroke: #4fb286; stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset 0.6s ease; }
+.flsg-ring-center {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.flsg-ring-pct { font-family: 'Space Grotesk', sans-serif; font-size: 26px; font-weight: 700; }
+.flsg-ring-label { font-size: 10px; color: var(--muted); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 2px; }
+
+.flsg-hero-text { flex: 1; min-width: 240px; }
+.flsg-eyebrow {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--c-brasil); margin-bottom: 8px;
+}
+.flsg-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 700;
+  margin: 0 0 8px 0; letter-spacing: -0.01em;
+}
+.flsg-subtitle { color: var(--muted); font-size: 14px; max-width: 560px; }
+
+.flsg-nodes { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+.flsg-node-chip {
+  display: flex; align-items: center; gap: 6px; font-size: 11px;
+  font-family: 'IBM Plex Mono', monospace; color: var(--muted);
+  border: 1px solid var(--border); border-radius: 20px; padding: 4px 10px 4px 8px;
+}
+.flsg-node-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ---------- ROADMAP ---------- */
+.flsg-roadmap { padding: 24px 28px; border-bottom: 1px solid var(--border); }
+.flsg-section-title {
+  font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 600;
+  margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px;
+}
+.flsg-roadmap-track { display: flex; flex-wrap: wrap; gap: 8px; }
+.flsg-roadmap-step {
+  display: flex; align-items: center; gap: 8px; background: var(--panel);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; font-size: 12.5px;
+}
+.flsg-roadmap-num {
+  font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--bg);
+  background: var(--muted); width: 18px; height: 18px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.flsg-roadmap-arrow { color: var(--border); font-size: 14px; }
+
+/* ---------- CATEGORIES ---------- */
+.flsg-categories { padding: 8px 28px 32px 28px; display: flex; flex-direction: column; gap: 4px; }
+
+.flsg-cat {
+  border: 1px solid var(--border); border-radius: 10px; margin-top: 20px;
+  overflow: hidden; background: var(--panel);
+}
+.flsg-cat-head {
+  display: flex; align-items: center; gap: 12px; padding: 14px 16px;
+  cursor: pointer; user-select: none; border-bottom: 1px solid transparent;
+}
+.flsg-cat-head.open { border-bottom-color: var(--border); }
+.flsg-cat-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.flsg-cat-title { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 15px; flex: 1; }
+.flsg-cat-count { font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: var(--muted); }
+.flsg-cat-chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s ease; }
+.flsg-cat-chevron.open { transform: rotate(180deg); }
+.flsg-cat-bar { height: 3px; background: var(--panel-2); }
+.flsg-cat-bar-fill { height: 100%; transition: width 0.4s ease; }
+
+.flsg-cat-body { display: none; padding: 4px 16px 12px 16px; }
+.flsg-cat-body.open { display: block; }
+
+.flsg-item {
+  display: flex; gap: 12px; padding: 12px 4px; border-top: 1px solid var(--border);
+}
+.flsg-item:first-child { border-top: none; }
+
+.flsg-check {
+  width: 20px; height: 20px; border-radius: 5px; border: 1.5px solid var(--border);
+  flex-shrink: 0; margin-top: 2px; cursor: pointer; display: flex; align-items: center;
+  justify-content: center; transition: all 0.15s ease; background: var(--panel-2);
+}
+.flsg-check.checked { border-color: transparent; }
+.flsg-check svg { width: 12px; height: 12px; opacity: 0; transition: opacity 0.1s ease; }
+.flsg-check.checked svg { opacity: 1; }
+
+.flsg-item-body { flex: 1; min-width: 0; }
+.flsg-item-top { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.flsg-item-title { font-weight: 500; font-size: 14px; }
+.flsg-item-title.done { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--border); }
+.flsg-priority {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: 0.05em;
+  padding: 1px 7px; border-radius: 10px; text-transform: uppercase; flex-shrink: 0;
+}
+.flsg-priority.essencial { background: rgba(232,93,117,0.15); color: #e85d75; }
+.flsg-priority.recomendado { background: rgba(110,159,232,0.15); color: #6e9fe8; }
+.flsg-priority.complementar { background: rgba(139,149,166,0.15); color: #8b95a6; }
+
+.flsg-item-desc { font-size: 12.5px; color: var(--muted); margin-top: 4px; max-width: 640px; }
+.flsg-item-link {
+  font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: inherit;
+  opacity: 0.75; text-decoration: none; margin-top: 6px; display: inline-block;
+  border-bottom: 1px dotted currentColor;
+}
+.flsg-item-link:hover { opacity: 1; }
+
+.flsg-notes {
+  width: 100%; margin-top: 8px; background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: 6px; color: var(--text); font-size: 12.5px; padding: 7px 9px;
+  resize: vertical; min-height: 32px; font-family: 'IBM Plex Sans', sans-serif;
+}
+.flsg-notes::placeholder { color: #566073; }
+.flsg-notes:focus { outline: none; border-color: #4a5568; }
+
+.flsg-footer {
+  padding: 16px 28px 28px 28px; font-size: 11.5px; color: var(--muted);
+  font-family: 'IBM Plex Mono', monospace; display: flex; justify-content: space-between;
+  flex-wrap: wrap; gap: 8px;
+}
+.flsg-reset { background: none; border: 1px solid var(--border); color: var(--muted);
+  border-radius: 6px; padding: 5px 10px; cursor: pointer; font-family: inherit; font-size: 11px; }
+.flsg-reset:hover { border-color: #e85d75; color: #e85d75; }
+
+@media (max-width: 640px) {
+  .flsg-hero, .flsg-roadmap, .flsg-categories { padding-left: 16px; padding-right: 16px; }
+}
+</style>
+</head>
+<body>
+
+<div class="flsg-root" id="flsg-root">
+  <div class="flsg-hero">
+    <div class="flsg-ring-wrap">
+      <svg width="132" height="132" viewBox="0 0 132 132">
+        <circle class="flsg-ring-bg" cx="66" cy="66" r="58"></circle>
+        <circle class="flsg-ring-fg" id="flsg-ring-fg" cx="66" cy="66" r="58" stroke-dasharray="364.4" stroke-dashoffset="364.4"></circle>
+      </svg>
+      <div class="flsg-ring-center">
+        <div class="flsg-ring-pct" id="flsg-ring-pct">0%</div>
+        <div class="flsg-ring-label">agregado</div>
+      </div>
+    </div>
+    <div class="flsg-hero-text">
+      <div class="flsg-eyebrow">Guia de estudo · Aprendizado Federado na Saúde</div>
+      <h1 class="flsg-title">Federated Learning &amp; Interoperabilidade em Saúde</h1>
+      <div class="flsg-subtitle" id="flsg-subtitle">32 recursos organizados em 6 categorias. Marque o que já estudou e deixe anotações — como um modelo global sendo atualizado por rodadas de estudo.</div>
+      <div class="flsg-nodes" id="flsg-nodes"></div>
+    </div>
+  </div>
+
+  <div class="flsg-roadmap">
+    <div class="flsg-section-title">Trilha sugerida</div>
+    <div class="flsg-roadmap-track">
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">1</span>Fundamentos de FL</div>
+      <span class="flsg-roadmap-arrow">→</span>
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">2</span>Padrões internacionais</div>
+      <span class="flsg-roadmap-arrow">→</span>
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">3</span>SUS / Brasil</div>
+      <span class="flsg-roadmap-arrow">→</span>
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">4</span>Casos de uso</div>
+      <span class="flsg-roadmap-arrow">→</span>
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">5</span>Frameworks</div>
+      <span class="flsg-roadmap-arrow">→</span>
+      <div class="flsg-roadmap-step"><span class="flsg-roadmap-num">6</span>Literatura acadêmica</div>
+    </div>
+  </div>
+
+  <div class="flsg-categories" id="flsg-categories"></div>
+
+  <div class="flsg-footer">
+    <span id="flsg-summary">0 de 32 estudados</span>
+    <button class="flsg-reset" id="flsg-reset">Reiniciar progresso</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  const CATS = {
+    instituicoes: { label: "Instituições, Projetos e Iniciativas de IA", color: "var(--c-instituicoes)" },
+    brasil: { label: "Interoperabilidade e Saúde no Brasil (SUS)", color: "var(--c-brasil)" },
+    padroes: { label: "Padrões e Normas Internacionais", color: "var(--c-padroes)" },
+    frameworks: { label: "Frameworks e Bibliotecas de FL", color: "var(--c-frameworks)" },
+    pesquisa: { label: "Pesquisa Acadêmica e Repositórios", color: "var(--c-pesquisa)" },
+    outras: { label: "Outras Referências e Guias", color: "var(--c-outras)" }
+  };
+
+  const ITEMS = [
+    { id: "melloddy", cat: "instituicoes", pri: "recomendado", title: "Projeto MELLODDY (Drug Discovery)",
+      desc: "FL aplicado a descoberta de fármacos entre farmacêuticas concorrentes — caso clássico de colaboração sem compartilhar dados brutos.",
+      url: "https://pubs.acs.org/doi/10.1021/acs.jcim.3c00799" },
+    { id: "enigma", cat: "instituicoes", pri: "recomendado", title: "Consórcio ENIGMA (Neuroimagem)",
+      desc: "Rede global de neuroimagem; referência de arquitetura multi-institucional relevante para pensar governança de dados sensíveis.",
+      url: "https://openehr.org/unlocking-global-health-data-openehr-as-the-key-to-sovereignty-lifelong-records-and-smarter-healthcare/" },
+    { id: "gboard", cat: "instituicoes", pri: "essencial", title: "Google Gboard (exemplo pioneiro de FL)",
+      desc: "O artigo original do Google que popularizou FL fora da saúde — bom ponto de partida conceitual antes de entrar no domínio clínico.",
+      url: "https://ai.googleblog.com/2017/04/federated-learning-collaborative.html" },
+    { id: "kcl", cat: "instituicoes", pri: "recomendado", title: "King's College London (Value-Based Healthcare)",
+      desc: "Case NVIDIA/KCL sobre FL aplicado a saúde baseada em valor — bom exemplo de indicador assistencial construído sobre dados federados.",
+      url: "https://www.nvidia.com/content/dam/en-us/Solutions/data-center/gated-resources/hc-casestudy-kings-college-london.pdf" },
+
+    { id: "rnds", cat: "brasil", pri: "essencial", title: "Rede Nacional de Dados em Saúde (RNDS)",
+      desc: "Infraestrutura de interoperabilidade do SUS — peça central para qualquer proposta de monitoramento de indicadores no Brasil.",
+      url: "https://www.gov.br/saude/pt-br/composicao/seidigi/rnds" },
+    { id: "mad", cat: "brasil", pri: "recomendado", title: "Metodologia de Administração de Dados do DATASUS",
+      desc: "Documento técnico (jun/2025) sobre governança de dados no DATASUS — útil para justificar escolhas metodológicas de qualidade de dados.",
+      url: "https://datasus.saude.gov.br/wp-content/uploads/2025/06/MAD_240625.pdf" },
+    { id: "susdigital", cat: "brasil", pri: "essencial", title: "Programa SUS Digital",
+      desc: "Estratégia nacional de transformação digital em saúde — contexto de política pública para posicionar o pré-projeto.",
+      url: "https://www.gov.br/saude/pt-br/composicao/seidigi/sus-digital" },
+    { id: "seidigi26", cat: "brasil", pri: "complementar", title: "Chamamento SEIDIGI 2026",
+      desc: "Edital público nº 01/2026 — verificar prazos e escopo, pode ser fonte de financiamento ou parceria institucional.",
+      url: "https://www.gov.br/saude/pt-br/acesso-a-informacao/participacao-social/chamamentos-publicos/2026/chamamento-publico-no-01-2026-seidigi" },
+
+    { id: "fhir", cat: "padroes", pri: "essencial", title: "HL7 FHIR Specification",
+      desc: "Padrão que você já usa como referência — revisar módulos relacionados a observações clínicas e eventos de segurança do paciente.",
+      url: "https://www.hl7.org/fhir/" },
+    { id: "openehr", cat: "padroes", pri: "recomendado", title: "Fundação openEHR",
+      desc: "Modelo alternativo/complementar ao FHIR, focado em arquétipos clínicos de longo prazo — útil para comparação de abordagens.",
+      url: "https://openehr.org/" },
+    { id: "hti1", cat: "padroes", pri: "complementar", title: "Regra HTI-1 (EUA/ONC)",
+      desc: "Regulação americana sobre interoperabilidade e IA em saúde — traz exigências de transparência algorítmica que podem inspirar critérios do seu indicador.",
+      url: "https://healthit.gov/regulations/hti-rules/hti-1-final-rule/" },
+    { id: "ehds", cat: "padroes", pri: "recomendado", title: "European Health Data Space (EHDS)",
+      desc: "Framework europeu já no seu radar — reforça o paralelo regulatório entre LGPD, EHDS e uso secundário de dados de saúde.",
+      url: "https://health.ec.europa.eu/ehealth-digital-health-and-care/european-health-data-space-regulation-ehds_en" },
+    { id: "who", cat: "padroes", pri: "essencial", title: "Ética e Governança da IA (OMS)",
+      desc: "Diretrizes globais de ética em IA para saúde — base normativa para a seção de considerações éticas do pré-projeto.",
+      url: "https://www.who.int/publications/i/item/9789240029200" },
+
+    { id: "tff", cat: "frameworks", pri: "recomendado", title: "TensorFlow Federated (TFF)",
+      desc: "Biblioteca de referência do Google para simulação de FL — boa para prototipagem rápida de algoritmos de agregação.",
+      url: "https://www.tensorflow.org/federated" },
+    { id: "fate", cat: "frameworks", pri: "complementar", title: "FATE (Federated AI Technology Enabler)",
+      desc: "Plataforma industrial de FL com foco em privacidade e segurança — mais robusta para produção do que para pesquisa exploratória.",
+      url: "https://github.com/FederatedAI/FATE" },
+    { id: "pysyft", cat: "frameworks", pri: "recomendado", title: "PySyft (OpenMined)",
+      desc: "Biblioteca de privacidade computacional integrada a PyTorch — boa se você for explorar criptografia homomórfica ou privacidade diferencial.",
+      url: "https://github.com/OpenMined/PySyft" },
+    { id: "ibmfl", cat: "frameworks", pri: "complementar", title: "IBM Federated Learning",
+      desc: "Toolkit da IBM com foco empresarial — útil como referência de arquitetura, mas menos ativo que outras opções da lista.",
+      url: "https://github.com/IBM/federated-learning-lib" },
+    { id: "nvflare", cat: "frameworks", pri: "recomendado", title: "NVIDIA FLARE",
+      desc: "SDK com forte adoção em saúde (usado em casos clínicos reais) — provavelmente a opção mais alinhada ao seu domínio de aplicação.",
+      url: "https://developer.nvidia.com/flare" },
+    { id: "flower", cat: "frameworks", pri: "essencial", title: "Flower Framework",
+      desc: "Framework agnóstico de ML (funciona com PyTorch, TensorFlow etc.) e com curva de entrada mais suave — bom candidato para um primeiro protótipo.",
+      url: "https://flower.ai/" },
+    { id: "openfl", cat: "frameworks", pri: "complementar", title: "OpenFL",
+      desc: "Mantido pela Intel, com foco em segurança — vale conhecer como alternativa ao NVIDIA FLARE em ambientes clínicos.",
+      url: "https://openfl.io/" },
+    { id: "paddlefl", cat: "frameworks", pri: "complementar", title: "PaddleFL",
+      desc: "Ecossistema do Baidu (PaddlePaddle) — relevante principalmente se for revisar literatura chinesa sobre FL em saúde.",
+      url: "https://github.com/PaddlePaddle/PaddleFL/" },
+
+    { id: "revisao", cat: "pesquisa", pri: "essencial", title: "Revisão Sistemática (Cell Reports Medicine)",
+      desc: "Provavelmente a referência mais citável do guia — bom ponto de partida para o estado da arte de FL em saúde no pré-projeto.",
+      url: "https://doi.org/10.1016/j.xcrm.2024.101419" },
+    { id: "acm", cat: "pesquisa", pri: "recomendado", title: "ACM Transactions on Computing for Healthcare",
+      desc: "Periódico especializado — bom para buscar trabalhos recentes sobre indicadores assistenciais e monitoramento com IA.",
+      url: "https://doi.org/10.1145/3533708" },
+    { id: "arxiv", cat: "pesquisa", pri: "essencial", title: "ArXiv (pré-publicações)",
+      desc: "Fonte contínua de preprints sobre FL — configure alertas para 'federated learning' + 'patient safety' / 'clinical monitoring'.",
+      url: "https://arxiv.org/" },
+
+    { id: "datacamp", cat: "outras", pri: "complementar", title: "DataCamp — Guia de Federated Learning",
+      desc: "Boa introdução geral em português/inglês simplificado — útil só na primeira leitura, não como referência formal.",
+      url: "https://www.datacamp.com/pt/blog/federated-learning" },
+    { id: "zup", cat: "outras", pri: "complementar", title: "Zup Innovation — Guia Federated Learning",
+      desc: "Conteúdo de blog brasileiro — pode ajudar a explicar o conceito de forma acessível para bancas não técnicas.",
+      url: "https://zup.com.br/blog/federated-learning/" },
+    { id: "mover", cat: "outras", pri: "complementar", title: "Mover – Fundep (setor automotivo)",
+      desc: "Fora do domínio de saúde, mas mostra FL aplicado à indústria automotiva — bom exemplo comparativo de outro setor.",
+      url: "https://mover.fundep.ufmg.br/o-que-e-aprendizado-federado/" },
+    { id: "pytorch", cat: "outras", pri: "recomendado", title: "PyTorch Foundation",
+      desc: "Base necessária para usar Flower, PySyft ou NVIDIA FLARE — revisar se ainda não tiver fluência prática.",
+      url: "https://pytorch.org/" }
+  ];
+
+  const STORAGE_KEY = "fl-study-progress-v1";
+  let state = {};
+  const root = document.getElementById("flsg-root");
+
+  function priLabel(p) {
+    return { essencial: "Essencial", recomendado: "Recomendado", complementar: "Complementar" }[p] || p;
+  }
+
+  async function loadState() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      state = raw ? JSON.parse(raw) : {};
+    } catch (e) {
+      state = {};
+    }
+    render();
+  }
+
+  let saveTimer = null;
+  function saveState() {
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+      catch (e) { console.error("Erro ao salvar progresso:", e); }
+    }, 300);
+  }
+
+  function toggle(id) {
+    state[id] = state[id] || {};
+    state[id].studied = !state[id].studied;
+    saveState();
+    render();
+  }
+
+  function setNote(id, val) {
+    state[id] = state[id] || {};
+    state[id].notes = val;
+    saveState();
+  }
+
+  function catStats(catKey) {
+    const items = ITEMS.filter(i => i.cat === catKey);
+    const done = items.filter(i => state[i.id] && state[i.id].studied).length;
+    return { done, total: items.length };
+  }
+
+  function renderNodes() {
+    const wrap = document.getElementById("flsg-nodes");
+    wrap.innerHTML = "";
+    Object.keys(CATS).forEach(key => {
+      const { done, total } = catStats(key);
+      const chip = document.createElement("div");
+      chip.className = "flsg-node-chip";
+      chip.innerHTML = `<span class="flsg-node-dot" style="background:${CATS[key].color}"></span>${done}/${total}`;
+      wrap.appendChild(chip);
+    });
+  }
+
+  function render() {
+    const total = ITEMS.length;
+    const done = ITEMS.filter(i => state[i.id] && state[i.id].studied).length;
+    const pct = total ? Math.round((done / total) * 100) : 0;
+
+    const circumference = 364.4;
+    const offset = circumference - (pct / 100) * circumference;
+    document.getElementById("flsg-ring-fg").style.strokeDashoffset = offset;
+    document.getElementById("flsg-ring-pct").textContent = pct + "%";
+    document.getElementById("flsg-summary").textContent = done + " de " + total + " estudados";
+
+    renderNodes();
+
+    const container = document.getElementById("flsg-categories");
+    container.innerHTML = "";
+
+    Object.keys(CATS).forEach(key => {
+      const cat = CATS[key];
+      const items = ITEMS.filter(i => i.cat === key);
+      const { done: catDone, total: catTotal } = catStats(key);
+      const catPct = catTotal ? Math.round((catDone / catTotal) * 100) : 0;
+
+      const catEl = document.createElement("div");
+      catEl.className = "flsg-cat";
+
+      const isOpen = state["__open_" + key] !== false; // default open
+
+      catEl.innerHTML = `
+        <div class="flsg-cat-head ${isOpen ? "open" : ""}" data-cat="${key}">
+          <span class="flsg-cat-dot" style="background:${cat.color}"></span>
+          <span class="flsg-cat-title">${cat.label}</span>
+          <span class="flsg-cat-count">${catDone}/${catTotal}</span>
+          <span class="flsg-cat-chevron ${isOpen ? "open" : ""}">▾</span>
+        </div>
+        <div class="flsg-cat-bar"><div class="flsg-cat-bar-fill" style="width:${catPct}%;background:${cat.color}"></div></div>
+        <div class="flsg-cat-body ${isOpen ? "open" : ""}" data-catbody="${key}"></div>
+      `;
+
+      const body = catEl.querySelector(`[data-catbody="${key}"]`);
+      items.forEach(item => {
+        const s = state[item.id] || {};
+        const row = document.createElement("div");
+        row.className = "flsg-item";
+        row.innerHTML = `
+          <div class="flsg-check ${s.studied ? "checked" : ""}" data-toggle="${item.id}" style="${s.studied ? `background:${cat.color};border-color:${cat.color}` : ""}">
+            <svg viewBox="0 0 16 16" fill="none"><path d="M3 8.5L6.2 11.5L13 4.5" stroke="${s.studied ? "#10131a" : "none"}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div class="flsg-item-body">
+            <div class="flsg-item-top">
+              <span class="flsg-item-title ${s.studied ? "done" : ""}">${item.title}</span>
+              <span class="flsg-priority ${item.pri}">${priLabel(item.pri)}</span>
+            </div>
+            <div class="flsg-item-desc">${item.desc}</div>
+            <a class="flsg-item-link" href="${item.url}" target="_blank" rel="noopener noreferrer" style="color:${cat.color}">${item.url.replace(/^https?:\/\//, "")}</a>
+            <textarea class="flsg-notes" placeholder="Anotações rápidas..." data-note="${item.id}">${s.notes || ""}</textarea>
+          </div>
+        `;
+        body.appendChild(row);
+      });
+
+      container.appendChild(catEl);
+    });
+
+    // attach listeners
+    container.querySelectorAll("[data-toggle]").forEach(el => {
+      el.addEventListener("click", () => toggle(el.getAttribute("data-toggle")));
+    });
+    container.querySelectorAll("[data-note]").forEach(el => {
+      el.addEventListener("input", () => setNote(el.getAttribute("data-note"), el.value));
+    });
+    container.querySelectorAll("[data-cat]").forEach(el => {
+      el.addEventListener("click", () => {
+        const key = el.getAttribute("data-cat");
+        state["__open_" + key] = state["__open_" + key] === false ? true : false;
+        render();
+      });
+    });
+  }
+
+  document.getElementById("flsg-reset").addEventListener("click", () => {
+    if (!confirm("Reiniciar todo o progresso de estudo? Isso apaga marcações e anotações.")) return;
+    state = {};
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    render();
+  });
+
+  loadState();
+})();
+</script>
+</body>
+</html>
